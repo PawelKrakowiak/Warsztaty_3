@@ -13,24 +13,29 @@
                 $.ajax({
                     url: "api/books.php",
                     type: "GET",
-                    data: {},
+                    data: {"id": "1"},
                     dataType: "json",
                     success: 
                             function(json) {   
-                                var newDivs = [];
                                 var body = $('body');
                                 var emptyDiv = $('<div>');
-                                for(var i = 0; i<json.length; i++){
-                                    newDivs[i] = ($("<div class='title'>"));
-                                    newDivs[i].html("<h3 style='text-align:center;'>" + json[i].title + "</h3><div class='info'></div>");
-                                    body.prepend(newDivs[i]);
+                                if($.isArray(json)){
+                                    var newDivs = [];
+                                    for(var i = 0; i<json.length; i++){
+                                        newDivs[i] = ($("<div class='title'>"));
+                                        newDivs[i].html("<h3 style='text-align:center;'>" + json[i].title + "</h3><div class='info'></div>");
+                                        body.prepend(newDivs[i]);
+                                    }                                    
+                                }else{
+                                    var newDiv = ($("<div class='title'>"));
+                                    newDiv.html("<h3 style='text-align:center;'>" + json.title + "</h3><div class='info'></div>");
+                                    body.prepend(newDiv);
                                 }
                             },
                     error: function(xhr, status, errorThrown) {console.log(status); console.log(errorThrown);},
                     complete: function(xhr, status) {console.log('done');}
             });
             });
-
         </script>    
     </body>
 </html>
